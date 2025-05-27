@@ -1,4 +1,7 @@
-import { tokenSchema, TTokenSchema } from "@/core/types/token-schema";
+import {
+  tokenPayloadSchema,
+  TUserPayload,
+} from "@/core/types/token-payload-schema";
 import { Env } from "@/env";
 import { Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
@@ -16,7 +19,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  validate(payload: TTokenSchema): unknown {
-    return tokenSchema.parse(payload);
+  validate(payload: TUserPayload): unknown {
+    return tokenPayloadSchema.parse(payload);
   }
 }
