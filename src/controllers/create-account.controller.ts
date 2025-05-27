@@ -3,23 +3,20 @@ import {
   TCreateAccountControllerRequest,
 } from "@/core/types/create-account-controller";
 import { ZodValidationPipe } from "@/pipes/zod-validation-pipe";
-import {
-  Body,
-  ConflictException,
-  Controller,
-  Post,
-  UsePipes,
-} from "@nestjs/common";
+import { Body, ConflictException, Controller, Post } from "@nestjs/common";
 import { hash } from "bcryptjs";
 import { PrismaService } from "src/prisma/prisma.service";
+
+const bodyValidationPipe = new ZodValidationPipe(createAccountBodySchema);
 
 @Controller("/accounts")
 export class CreateAccountController {
   constructor(private prisma: PrismaService) {}
 
   @Post()
-  @UsePipes(new ZodValidationPipe(createAccountBodySchema))
-  async handle(@Body() body: TCreateAccountControllerRequest) {
+  async handle(
+    @Body(bodyValidationPipe) body: TCreateAccountControllerRequest
+  ) {
     const { email, name, password } = body;
 
     const userWithSameEmail = await this.prisma.user.findUnique({

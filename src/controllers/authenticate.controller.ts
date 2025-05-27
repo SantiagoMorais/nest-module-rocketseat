@@ -4,15 +4,11 @@ import {
 } from "@/core/types/authenticate-controller";
 import { ZodValidationPipe } from "@/pipes/zod-validation-pipe";
 import { PrismaService } from "@/prisma/prisma.service";
-import {
-  Body,
-  Controller,
-  Post,
-  UnauthorizedException,
-  UsePipes,
-} from "@nestjs/common";
+import { Body, Controller, Post, UnauthorizedException } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { compare } from "bcryptjs";
+
+const bodyValidationPipe = new ZodValidationPipe(authenticateBodySchema);
 
 @Controller("/sessions")
 export class AuthenticateController {
@@ -22,8 +18,7 @@ export class AuthenticateController {
   ) {}
 
   @Post()
-  @UsePipes(new ZodValidationPipe(authenticateBodySchema))
-  async handle(@Body() body: TAuthenticateControllerRequest) {
+  async handle(@Body(bodyValidationPipe) body: TAuthenticateControllerRequest) {
     const { email, password } = body;
 
     const user = await this.prisma.user.findUnique({
