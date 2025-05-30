@@ -4,7 +4,7 @@ import {
   TPageQueryParamSchema,
 } from "@/core/types/page-query-param";
 import { ZodValidationPipe } from "@/infra/http/pipes/zod-validation-pipe";
-import { PrismaService } from "@/infra/prisma/prisma.service";
+import { PrismaService } from "@/infra/database/prisma/prisma.service";
 import { Controller, Get, Query, UseGuards } from "@nestjs/common";
 
 const queryValidationPipe = new ZodValidationPipe(pageQueryParamSchema);

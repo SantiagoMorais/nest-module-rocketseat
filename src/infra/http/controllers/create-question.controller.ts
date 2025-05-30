@@ -6,7 +6,7 @@ import {
 } from "@/core/types/create-question-controller";
 import { TUserPayload } from "@/core/types/token-payload-schema";
 import { ZodValidationPipe } from "@/infra/http/pipes/zod-validation-pipe";
-import { PrismaService } from "@/infra/prisma/prisma.service";
+import { PrismaService } from "@/infra/database/prisma/prisma.service";
 import {
   Body,
   ConflictException,
