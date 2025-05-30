@@ -8,7 +8,9 @@ import { UniqueEntityId } from "@/core/entities/unique-entity-id";
 import { right } from "@/core/either";
 import { QuestionAttachment } from "@/domain/forum/enterprise/entities/question-attachment";
 import { QuestionAttachmentList } from "@/domain/forum/enterprise/entities/question-attachment-list";
+import { Injectable } from "@nestjs/common";
 
+@Injectable()
 export class CreateQuestionUseCase {
   constructor(private questionsRepository: QuestionsRepository) {}
 
