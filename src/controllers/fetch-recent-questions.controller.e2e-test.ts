@@ -53,9 +53,6 @@ describe("Fetch recent questions (E2E)", () => {
       .get("/questions")
       .set("Authorization", `Bearer ${accessToken}`);
 
-    const questions = await prisma.question.findMany();
-    console.log(questions);
-
     expect(response.statusCode).toBe(200);
     expect(response.body).toEqual({
       questions: expect.arrayContaining([
