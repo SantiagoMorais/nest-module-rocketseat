@@ -2,7 +2,7 @@ import {
   tokenPayloadSchema,
   TUserPayload,
 } from "@/core/types/token-payload-schema";
-import { Env } from "@/env";
+import { Env } from "@/infra/env";
 import { Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { PassportStrategy } from "@nestjs/passport";

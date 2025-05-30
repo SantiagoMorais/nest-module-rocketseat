@@ -2,10 +2,10 @@ import {
   createAccountBodySchema,
   TCreateAccountControllerRequest,
 } from "@/core/types/create-account-controller";
-import { ZodValidationPipe } from "@/pipes/zod-validation-pipe";
+import { ZodValidationPipe } from "@/infra/http/pipes/zod-validation-pipe";
 import { Body, ConflictException, Controller, Post } from "@nestjs/common";
 import { hash } from "bcryptjs";
-import { PrismaService } from "src/prisma/prisma.service";
+import { PrismaService } from "@/infra/prisma/prisma.service";
 
 const bodyValidationPipe = new ZodValidationPipe(createAccountBodySchema);
 

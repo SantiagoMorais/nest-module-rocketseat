@@ -1,12 +1,12 @@
-import { CurrentUser } from "@/auth/current-user.decorator";
-import { JwtAuthGuard } from "@/auth/jwt-auth.guard";
+import { CurrentUser } from "@/infra/auth/current-user.decorator";
+import { JwtAuthGuard } from "@/infra/auth/jwt-auth.guard";
 import {
   createQuestionBodySchema,
   TCreateQuestionBody,
 } from "@/core/types/create-question-controller";
 import { TUserPayload } from "@/core/types/token-payload-schema";
-import { ZodValidationPipe } from "@/pipes/zod-validation-pipe";
-import { PrismaService } from "@/prisma/prisma.service";
+import { ZodValidationPipe } from "@/infra/http/pipes/zod-validation-pipe";
+import { PrismaService } from "@/infra/prisma/prisma.service";
 import {
   Body,
   ConflictException,
