@@ -4,7 +4,9 @@ import {
 } from "@/core/interfaces/list-recent-questions-use-case";
 import { QuestionsRepository } from "../../repositories/questions-repository";
 import { right } from "@/core/either";
+import { Injectable } from "@nestjs/common";
 
+@Injectable()
 export class ListRecentQuestionsUseCase {
   constructor(private questionsRepository: QuestionsRepository) {}
 
