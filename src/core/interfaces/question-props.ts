@@ -10,5 +10,5 @@ export interface IQuestionProps {
   title: string;
   attachments: QuestionAttachmentList;
   createdAt: Date;
-  updatedAt?: Date;
+  updatedAt?: Date | null;
 }

@@ -4,5 +4,5 @@ export interface ICommentProps {
   authorId: UniqueEntityId;
   content: string;
   createdAt: Date;
-  updatedAt?: Date;
+  updatedAt?: Date | null;
 }

@@ -7,5 +7,5 @@ export interface IAnswerProps {
   questionId: UniqueEntityId;
   attachments: AnswerAttachmentList;
   createdAt: Date;
-  updatedAt?: Date;
+  updatedAt?: Date | null;
 }
