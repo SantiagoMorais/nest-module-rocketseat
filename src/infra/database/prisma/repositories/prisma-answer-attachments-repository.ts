@@ -7,10 +7,10 @@ export class PrismaAnswerAttachmentsRepository
   implements AnswerAttachmentsRepository
 {
   findManyByAnswerId(answerId: string): Promise<Array<AnswerAttachment>> {
-    throw new Error("Method not implemented.");
+    throw new Error(`Method not implemented. ${answerId}`);
   }
 
   deleteManyByAnswerId(answerId: string): Promise<void> {
-    throw new Error("Method not implemented.");
+    throw new Error(`Method not implemented. ${answerId}`);
   }
 }

@@ -8,21 +8,21 @@ export class PrismaQuestionCommentsRepository
   implements QuestionCommentsRepository
 {
   findById(id: string): Promise<QuestionComment | null> {
-    throw new Error("Method not implemented.");
+    throw new Error(`Method not implemented. ${id}`);
   }
 
   create(questionComment: QuestionComment): Promise<void> {
-    throw new Error("Method not implemented.");
+    throw new Error(`Method not implemented. ${questionComment}`);
   }
 
   delete(questionComment: QuestionComment): Promise<void> {
-    throw new Error("Method not implemented.");
+    throw new Error(`Method not implemented. ${questionComment}`);
   }
 
   findManyByQuestionId(
     questionId: string,
     params: PaginationParams
   ): Promise<Array<QuestionComment>> {
-    throw new Error("Method not implemented.");
+    throw new Error(`Method not implemented. ${questionId}, ${params.page}`);
   }
 }

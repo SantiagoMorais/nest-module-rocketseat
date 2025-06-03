@@ -8,21 +8,21 @@ export class PrismaAnswerCommentsRepository
   implements AnswerCommentsRepository
 {
   findById(id: string): Promise<AnswerComment | null> {
-    throw new Error("Method not implemented.");
+    throw new Error(`Method not implemented. ${id}`);
   }
 
   create(answerComment: AnswerComment): Promise<void> {
-    throw new Error("Method not implemented.");
+    throw new Error(`Method not implemented. ${answerComment}`);
   }
 
   delete(answerComment: AnswerComment): Promise<void> {
-    throw new Error("Method not implemented.");
+    throw new Error(`Method not implemented. ${answerComment}`);
   }
 
   findManyByAnswerId(
     answerId: string,
     params: PaginationParams
   ): Promise<Array<AnswerComment>> {
-    throw new Error("Method not implemented.");
+    throw new Error(`Method not implemented. ${answerId}, ${params.page}`);
   }
 }
