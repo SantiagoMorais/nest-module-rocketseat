@@ -9,6 +9,8 @@ import { right } from "@/core/either";
 import { QuestionAttachment } from "@/domain/forum/enterprise/entities/question-attachment";
 import { QuestionAttachmentList } from "@/domain/forum/enterprise/entities/question-attachment-list";
 import { Injectable } from "@nestjs/common";
+import { Slug } from "@/domain/forum/enterprise/entities/value-objects/slug";
+import { QuestionAlreadyExistsError } from "@/core/errors/question-already-exists-error";
 
 @Injectable()
 export class CreateQuestionUseCase {
@@ -20,6 +22,11 @@ export class CreateQuestionUseCase {
     title,
     attachmentsIds,
   }: ICreateQuestionUseCaseRequest): Promise<ICreateQuestionUseCaseResponse> {
+    const slug = Slug.createFromText(title).value;
+    const slugAlreadyExists = await this.questionsRepository.findBySlug(slug);
+
+    if (slugAlreadyExists) throw new QuestionAlreadyExistsError(slug);
+
     const question = Question.create({
       authorId: new UniqueEntityId(authorId),
       content,

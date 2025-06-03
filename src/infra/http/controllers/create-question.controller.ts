@@ -1,3 +1,4 @@
+import { QuestionAlreadyExistsError } from "@/core/errors/question-already-exists-error";
 import {
   createQuestionBodySchema,
   TCreateQuestionBody,
@@ -5,20 +6,18 @@ import {
 import { TUserPayload } from "@/core/types/token-payload-schema";
 import { CreateQuestionUseCase } from "@/domain/forum/application/use-cases/questions/create-question";
 import { CurrentUser } from "@/infra/auth/current-user.decorator";
-import { JwtAuthGuard } from "@/infra/auth/jwt-auth.guard";
 import { ZodValidationPipe } from "@/infra/http/pipes/zod-validation-pipe";
 import {
   BadRequestException,
   Body,
+  ConflictException,
   Controller,
   Post,
-  UseGuards,
 } from "@nestjs/common";
 
 const bodyValidationPipe = new ZodValidationPipe(createQuestionBodySchema);
 
 @Controller("/questions")
-@UseGuards(JwtAuthGuard)
 export class CreateQuestionController {
   constructor(private createQuestion: CreateQuestionUseCase) {}
 
@@ -37,6 +36,14 @@ export class CreateQuestionController {
       attachmentsIds: [],
     });
 
-    if (result.isLeft()) throw new BadRequestException();
+    if (result.isLeft()) {
+      const error = result.value;
+      switch (error.constructor) {
+        case QuestionAlreadyExistsError:
+          throw new ConflictException(error.message);
+        default:
+          throw new BadRequestException();
+      }
+    }
   }
 }
