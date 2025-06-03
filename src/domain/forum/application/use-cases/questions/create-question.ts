@@ -5,7 +5,7 @@ import {
 import { Question } from "../../../enterprise/entities/question";
 import { QuestionsRepository } from "../../repositories/questions-repository";
 import { UniqueEntityId } from "@/core/entities/unique-entity-id";
-import { right } from "@/core/either";
+import { left, right } from "@/core/either";
 import { QuestionAttachment } from "@/domain/forum/enterprise/entities/question-attachment";
 import { QuestionAttachmentList } from "@/domain/forum/enterprise/entities/question-attachment-list";
 import { Injectable } from "@nestjs/common";
@@ -25,7 +25,7 @@ export class CreateQuestionUseCase {
     const slug = Slug.createFromText(title).value;
     const slugAlreadyExists = await this.questionsRepository.findBySlug(slug);
 
-    if (slugAlreadyExists) throw new QuestionAlreadyExistsError(slug);
+    if (slugAlreadyExists) return left(new QuestionAlreadyExistsError(slug));
 
     const question = Question.create({
       authorId: new UniqueEntityId(authorId),
