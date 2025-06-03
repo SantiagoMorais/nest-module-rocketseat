@@ -4,6 +4,7 @@ import {
   TAuthenticateControllerRequest,
 } from "@/core/types/authenticate-controller";
 import { AuthenticateStudentUseCase } from "@/domain/forum/application/use-cases/student/authenticate-student";
+import { Public } from "@/infra/auth/public";
 import { ZodValidationPipe } from "@/infra/http/pipes/zod-validation-pipe";
 import {
   BadRequestException,
@@ -16,6 +17,7 @@ import {
 const bodyValidationPipe = new ZodValidationPipe(authenticateBodySchema);
 
 @Controller("/sessions")
+@Public()
 export class AuthenticateController {
   constructor(private authenticateStudent: AuthenticateStudentUseCase) {}
 

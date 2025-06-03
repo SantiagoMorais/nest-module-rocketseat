@@ -3,21 +3,13 @@ import {
   TPageQueryParamSchema,
 } from "@/core/types/page-query-param";
 import { ListRecentQuestionsUseCase } from "@/domain/forum/application/use-cases/questions/list-recent-questions";
-import { JwtAuthGuard } from "@/infra/auth/jwt-auth.guard";
 import { ZodValidationPipe } from "@/infra/http/pipes/zod-validation-pipe";
-import {
-  BadRequestException,
-  Controller,
-  Get,
-  Query,
-  UseGuards,
-} from "@nestjs/common";
+import { BadRequestException, Controller, Get, Query } from "@nestjs/common";
 import { QuestionPresenter } from "../presenters/question-presenter";
 
 const queryValidationPipe = new ZodValidationPipe(pageQueryParamSchema);
 
 @Controller("/questions")
-@UseGuards(JwtAuthGuard)
 export class FetchRecentQuestionsController {
   constructor(private fetchRecentQuestions: ListRecentQuestionsUseCase) {}
 

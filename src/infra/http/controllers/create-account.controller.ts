@@ -4,6 +4,7 @@ import {
   TCreateAccountControllerRequest,
 } from "@/core/types/create-account-controller";
 import { RegisterStudentUseCase } from "@/domain/forum/application/use-cases/student/register-student";
+import { Public } from "@/infra/auth/public";
 import { ZodValidationPipe } from "@/infra/http/pipes/zod-validation-pipe";
 import {
   BadRequestException,
@@ -16,6 +17,7 @@ import {
 const bodyValidationPipe = new ZodValidationPipe(createAccountBodySchema);
 
 @Controller("/accounts")
+@Public()
 export class CreateAccountController {
   constructor(private registerStudentUseCase: RegisterStudentUseCase) {}
 
