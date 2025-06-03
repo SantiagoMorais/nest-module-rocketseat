@@ -5,7 +5,13 @@ import {
 import { ListRecentQuestionsUseCase } from "@/domain/forum/application/use-cases/questions/list-recent-questions";
 import { JwtAuthGuard } from "@/infra/auth/jwt-auth.guard";
 import { ZodValidationPipe } from "@/infra/http/pipes/zod-validation-pipe";
-import { Controller, Get, Query, UseGuards } from "@nestjs/common";
+import {
+  BadRequestException,
+  Controller,
+  Get,
+  Query,
+  UseGuards,
+} from "@nestjs/common";
 import { QuestionPresenter } from "../presenters/question-presenter";
 
 const queryValidationPipe = new ZodValidationPipe(pageQueryParamSchema);
@@ -21,7 +27,7 @@ export class FetchRecentQuestionsController {
     page: TPageQueryParamSchema
   ) {
     const result = await this.fetchRecentQuestions.execute({ page });
-    if (result.isLeft()) throw new Error();
+    if (result.isLeft()) throw new BadRequestException();
 
     const questions = result.value.questions;
 

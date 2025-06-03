@@ -1,10 +1,17 @@
+import { StudentAlreadyExistsError } from "@/core/errors/student-already-exists-error";
 import {
   createAccountBodySchema,
   TCreateAccountControllerRequest,
 } from "@/core/types/create-account-controller";
 import { RegisterStudentUseCase } from "@/domain/forum/application/use-cases/student/register-student";
 import { ZodValidationPipe } from "@/infra/http/pipes/zod-validation-pipe";
-import { Body, Controller, Post } from "@nestjs/common";
+import {
+  BadRequestException,
+  Body,
+  ConflictException,
+  Controller,
+  Post,
+} from "@nestjs/common";
 
 const bodyValidationPipe = new ZodValidationPipe(createAccountBodySchema);
 
@@ -24,6 +31,15 @@ export class CreateAccountController {
       password,
     });
 
-    if (result.isLeft()) throw new Error();
+    if (result.isLeft()) {
+      const error = result.value;
+
+      switch (error.constructor) {
+        case StudentAlreadyExistsError:
+          throw new ConflictException(error.message);
+        default:
+          throw new BadRequestException();
+      }
+    }
   }
 }

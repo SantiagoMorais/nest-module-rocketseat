@@ -1,10 +1,17 @@
+import { WrongCredentialsError } from "@/core/errors/wrong-credentials-error";
 import {
   authenticateBodySchema,
   TAuthenticateControllerRequest,
 } from "@/core/types/authenticate-controller";
 import { AuthenticateStudentUseCase } from "@/domain/forum/application/use-cases/student/authenticate-student";
 import { ZodValidationPipe } from "@/infra/http/pipes/zod-validation-pipe";
-import { Body, Controller, Post } from "@nestjs/common";
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Post,
+  UnauthorizedException,
+} from "@nestjs/common";
 
 const bodyValidationPipe = new ZodValidationPipe(authenticateBodySchema);
 
@@ -21,7 +28,16 @@ export class AuthenticateController {
       password,
     });
 
-    if (result.isLeft()) throw new Error();
+    if (result.isLeft()) {
+      const error = result.value;
+
+      switch (error.constructor) {
+        case WrongCredentialsError:
+          throw new UnauthorizedException(error.message);
+        default:
+          throw new BadRequestException(error.message);
+      }
+    }
 
     const { accessToken } = result.value;
 
