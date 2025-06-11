@@ -1,17 +1,33 @@
 import { UniqueEntityId } from "@/core/entities/unique-entity-id";
-import { QuestionAttachment } from "@/domain/forum/enterprise/entities/question-attachment";
-import { Attachment as PrismaAttachment } from "@prisma/client";
+import { QuestionComment } from "@/domain/forum/enterprise/entities/question-comment";
+import { Prisma, Comment as PrismaComment } from "@prisma/client";
 
-export class PrismaQuestionAttachmentMapper {
-  static toDomain(raw: PrismaAttachment): QuestionAttachment {
-    if (!raw.questionId) throw new Error("Invalid attachment type.");
+export class PrismaQuestionCommentMapper {
+  static toDomain(raw: PrismaComment): QuestionComment {
+    if (!raw.questionId) throw new Error("Invalid comment type.");
 
-    return QuestionAttachment.create(
+    return QuestionComment.create(
       {
-        attachmentId: new UniqueEntityId(raw.id),
+        content: raw.content,
+        authorId: new UniqueEntityId(raw.authorId),
         questionId: new UniqueEntityId(raw.questionId),
+        createdAt: raw.createdAt,
+        updatedAt: raw.updatedAt,
       },
       new UniqueEntityId(raw.id)
     );
+  }
+
+  static toPrisma(
+    questionComment: QuestionComment
+  ): Prisma.CommentUncheckedCreateInput {
+    return {
+      id: questionComment.id.toValue(),
+      authorId: questionComment.authorId.toValue(),
+      content: questionComment.content,
+      createdAt: questionComment.createdAt,
+      updatedAt: questionComment.updatedAt,
+      questionId: questionComment.questionId.toValue(),
+    };
   }
 }
